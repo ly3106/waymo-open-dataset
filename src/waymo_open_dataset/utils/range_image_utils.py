@@ -283,11 +283,18 @@ def compute_range_image_polar(range_image,
                                [range_image, extrinsic, inclination]):
     with tf.compat.v1.name_scope('Azimuth'):
       # [B].
+      # extrinsic是本雷达坐标相对于车辆坐标系的外参变换矩阵，变换参考系为车辆坐标系，因此az_correction指的是，LiDAR坐标系
+      # 在车辆坐标系的旋转的azimuth
       az_correction = tf.atan2(extrinsic[..., 1, 0], extrinsic[..., 0, 0])
       # [W].
+      # 生成一个1维数组，里面从wdith到0有W个元素（不包括0），对应range image的宽上面的每一个像素，
+      # 减去0.5可能是因为起始角度不在起始坐标轴上，他们差了0.5个间隔，然后除以整个宽度，及对应每个点的azimuth
+      # 占整个360度的比例。
       ratios = (tf.cast(tf.range(width, 0, -1), dtype=dtype) - .5) / tf.cast(
           width, dtype=dtype)
       # [B, W].
+      # 然后2来自于360度/180度，然后减1.0是为了平移到对应的角度（具体原因不知道），然后减去az_correction就得到了
+      # 相对于车辆坐标系（而不是本雷达坐标系）的azimuth
       azimuth = (ratios * 2. - 1.) * np.pi - tf.expand_dims(az_correction, -1)
 
     # [B, H, W]
