@@ -313,8 +313,9 @@ message CameraImage {
   optional CameraName.Name name = 1;
   // JPEG image.
   optional bytes image = 2;
-  // SDC pose.
-  optional Transform pose = 3;
+  // SDC (Self-Driving Car) pose.
+  // [SDC](https://github.com/waymo-research/waymo-open-dataset/issues/55#issuecomment-546152290)
+  optional Transform  3;
   // SDC velocity at 'pose_timestamp' below. The velocity value is represented
   // at *global* frame.
   // With this velocity, the pose can be extrapolated.
@@ -392,10 +393,10 @@ message Frame {
   // provided vehicle pose (pose).
   optional int64 timestamp_micros = 2;
 
-  // Frame vehicle pose. Note that unlike in CameraImage, the Frame pose does
+  // Frame vehicle pose(应该是相对于全局坐标系). Note that unlike in CameraImage, the Frame pose does
   // not correspond to the provided timestamp (timestamp_micros). Instead, it
   // roughly (but not exactly) corresponds to the vehicle pose in the middle of
-  // the given frame. The frame vehicle pose defines the coordinate system which
+  // the given frame(这里的middle应该是给定的当前帧扫描时间的中间时刻). The frame vehicle pose defines the coordinate system which
   // the 3D laser labels are defined in.
   optional Transform pose = 3;
 
