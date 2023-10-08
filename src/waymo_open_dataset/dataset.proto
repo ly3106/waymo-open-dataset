@@ -165,11 +165,11 @@ message Context {
 // There are two types of range images:
 // 1. Raw range image: Raw range image with a non-empty
 //   'range_image_pose_compressed' which tells the vehicle pose of each
-//   range image cell.
+//   range image cell.（这种目前（测试了WOD数据集1.3.1之前的版本）只有TOP LiDAR提供）
 // 2. Virtual range image: Range image with an empty
 //   'range_image_pose_compressed'. This range image is constructed by
 //   transforming all lidar points into a fixed vehicle frame (usually the
-//   vehicle frame of the middle scan).
+//   vehicle frame of the middle scan).（这里的middle scan应该是值的时间上本帧中间扫描时刻对应的哪个车辆坐标系，类似于Frame.pose解释的那个middle）
 // NOTE: 'range_image_pose_compressed' is only populated for the first range
 // image return. The second return has the exact the same range image pose as
 // the first one.
