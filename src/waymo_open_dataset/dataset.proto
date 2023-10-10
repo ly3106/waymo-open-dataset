@@ -184,6 +184,7 @@ message RangeImage {
   //   * channel 1: intensity
   //   * channel 2: elongation
   //   * channel 3: is in any no label zone.
+  // 在实际使用过程中，发现range有时后会是-1.0，猜测这是表示这个像素没有意义
   optional bytes range_image_compressed = 2;
 
   // Lidar point to camera image projections. A point can be projected to
